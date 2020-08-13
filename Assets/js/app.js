@@ -23,7 +23,7 @@ $(document).ready(function() {
     $("#view-city-cards").empty();
     for (let i = 0; i < cities.length; i++) {
       let $d = $("<div>").addClass("uk-card-header").attr("data-index", i).attr("id", "city-" + i);
-      let $a = $("<a>").attr("href", "#").addClass("uk-button uk-button-text city-link").text(cities[i]);
+      let $a = $("<a>").attr("href", "#target").attr("uk-scroll", true).addClass("uk-button uk-button-text city-link").text(cities[i]);
       let $b = $("<button>").addClass("uk-button uk-button-text uk-float-right trash").attr("uk-icon", "close");
       $d.append($a, $b);
       $("#view-city-cards").append($d);
@@ -48,6 +48,9 @@ $(document).ready(function() {
     let city = $("#city-input").val().trim().toLowerCase();
     cities.unshift(city);
     findDuplicates(cities);
+    if (city === '') {
+      return;
+    }
     if (findDuplicates(cities) === '') {
       $("#city-input").val("");
       renderCityList();
