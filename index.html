@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Weather Dashboard</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.5.5/dist/css/uikit.min.css" />
+  </head>
+  <body>
+    
+    <nav class="uk-navbar" uk-navbar>
+      <div class="uk-navbar-center">
+        <a class="uk-navbar-item uk-logo" href="#">Weather Dashboard</a>
+      </div>
+    </nav>
+
+    <div class="uk-container uk-margin uk-width-1-4@l uk-width-1-3@m uk-float-right">
+      <div class="uk-margin">
+        <p class="uk-text-uppercase uk-text-small">Search for a city</p>
+        <form class="uk-search uk-search-default uk-width-1">
+            <a href="" class="uk-search-icon-flip" uk-search-icon></a>
+            <input class="uk-search-input" type="search">
+        </form>
+      </div>
+      <div class="uk-container">
+        <ul uk-accordion>
+          <li class="uk-open">
+            <a class="uk-accordion-title" href="#">Cities</a>
+            <div class="uk-accordion-content">
+              <div class="uk-card-default">
+                <div class="uk-card-header">
+                  <a href="#" class="uk-button uk-button-text">Austin</a> 
+                  <button class="uk-button uk-button-text uk-float-right" uk-icon="icon: trash"></button>
+                </div>
+                <div class="uk-card-header">
+                  <a href="#" class="uk-button uk-button-text">Chicago</a> 
+                  <button class="uk-button uk-button-text uk-float-right" uk-icon="icon: trash"></button>
+                </div>
+                <div class="uk-card-header">
+                  <a href="#" class="uk-button uk-button-text">New York</a> 
+                  <button class="uk-button uk-button-text uk-float-right" uk-icon="icon: trash"></button>
+                </div>
+                <div class="uk-card-header">
+                  <a href="#" class="uk-button uk-button-text">Orlando</a> 
+                  <button class="uk-button uk-button-text uk-float-right" uk-icon="icon: trash"></button>
+                </div>
+                <div class="uk-card-header">
+                  <a href="#" class="uk-button uk-button-text">San Francisco</a> 
+                  <button class="uk-button uk-button-text uk-float-right" uk-icon="icon: trash"></button>
+                </div>
+                <div class="uk-card-header">
+                  <a href="#" class="uk-button uk-button-text">Seattle</a> 
+                  <span class="uk-button uk-button-text uk-float-right" uk-icon="icon: trash"></span>
+                </div>
+                <div class="uk-card-header">
+                  <a href="#" class="uk-button uk-button-text">Denver</a> 
+                  <span class="uk-button uk-button-text uk-float-right"uk-icon="icon: trash"></span>
+                </div>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+    
+
+    <div class="uk-container uk-margin uk-width-3-4@l uk-width-2-3@m uk-float-left">
+      <div class="uk-card uk-card-default uk-card-body">
+        <h2 class="uk-card-title">City (Today's Date)</h2>
+        <p>Temperature: </p>
+        <p>Humidity: </p>
+        <p>Wind Speed: </p>
+        <p>UV Index: </p>
+      </div>
+      <h3 class="uk-text-center">5-Day Forecast</h3>
+      <div class="uk-child-width-1-5@xl uk-child-width-1-3@l uk-child-width-1-2@m uk-child-width-1-2@s uk-grid-small uk-grid-match" uk-grid>
+        <div>
+          <div class="uk-card uk-card-default uk-card-body">
+            <h4 class="uk-card-title">Next Date</h4>
+            <p>Temperature: </p>
+            <p>Humidity: </p>
+          </div>
+        </div>
+        <div>
+          <div class="uk-card uk-card-default uk-card-body">
+            <h4 class="uk-card-title">Next Date</h4>
+            <p>Temperature: </p>
+            <p>Humidity: </p>
+          </div>
+        </div>
+        <div>
+          <div class="uk-card uk-card-default uk-card-body">
+            <h4 class="uk-card-title">Next Date</h4>
+            <p>Temperature: </p>
+            <p>Humidity: </p>
+          </div>
+        </div>
+        <div>
+          <div class="uk-card uk-card-default uk-card-body">
+            <h4 class="uk-card-title">Next Date</h4>
+            <p>Temperature: </p>
+            <p>Humidity: </p>
+          </div>
+        </div>
+        <div>
+          <div class="uk-card uk-card-default uk-card-body">
+            <h4 class="uk-card-title">Next Date</h4>
+            <p>Temperature: </p>
+            <p>Humidity: </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.5.5/dist/js/uikit.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.5.5/dist/js/uikit-icons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="./Assets/js/app.js"></script>
+  </body>
+</html>
