@@ -49,15 +49,14 @@ $(document).ready(function() {
     cities.unshift(city);
     findDuplicates(cities);
     if (city === '') {
-      return;
-    }
-    if (findDuplicates(cities) === '') {
+      return cities.shift();
+    } else if (findDuplicates(cities) === '') {
       $("#city-input").val("");
       renderCityList();
       storeCities();
       $('#city-0').children().first().click();
+      $('#add-city').parent().click();
     } else {
-      $("#city-input").val("");
       cities.shift();
       for (let i = 0; i < cities.length; i++) {
         if (cities[i] === city) {
