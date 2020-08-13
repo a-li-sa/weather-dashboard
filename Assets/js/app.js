@@ -83,10 +83,16 @@ $(document).ready(function() {
       $('#feels-like').text(`${response.main.feels_like}°F`);
       $('#today-humidity').text(`${response.main.humidity}%`);
       $('#today-wind').text(`${response.wind.speed} MPH`);
-      $('#sunrise').text(moment.unix(response.sys.sunrise).format('LT'));
-      $('#sunset').text(moment.unix(response.sys.sunset).format('LT'));
       let lat = response.coord.lat;
       let lon = response.coord.lon;
+      $.ajax({
+        url: `http://api.geonames.org/timezoneJSON?lat=${lat.toFixed(2)}&lng=${lon.toFixed(2)}&username=ksuhiyp`,
+        method: "GET"
+      }).then(function(response) {
+        $('#sunrise').text(moment(moment.tz(response.sunrise.toString(), response.timezoneId.toString())).format('LT'));
+        $('#sunset').text(moment(moment.tz(response.sunset.toString(), response.timezoneId.toString())).format('LT'));
+
+      }); 
       $.ajax({
         url: "https://api.openweathermap.org/data/2.5/uvi?lat=" + lat + "&lon=" + lon + "&appid=" + APIKey,
         method: "GET"
