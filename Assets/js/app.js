@@ -1,24 +1,10 @@
 $(document).ready(function() {
-    {/* <div>
-          <div class="uk-card uk-card-default uk-card-body">
-            <h4 class="uk-card-title">Next Date</h4>
-            <p>Temperature: <span id="temp-1"></span></p>
-            <p>Humidity: <span id="humidity-1"></span></p>
-          </div>
-        </div>
-        <div>
-          <div class="uk-card uk-card-default uk-card-body">
-            <h4 class="uk-card-title">Next Date</h4>
-            <p>Temperature: <span id="temp-2"></span></p>
-            <p>Humidity: <span id="humidity-2"></span></p>
-          </div>
-        </div> */}
-  $('#today-date').text(`(${moment().format('L')}`);
+  $('#today-date').text(`(${moment().format('L dddd')})`);
   for (let i = 1; i < 6; i++) {
     let $div = $('<div>');
     let $innerDiv = $('<div>').addClass('uk-card uk-card-default uk-card-body');
-    let $h4 = $('<h4>').addClass("uk-card-title").text(moment().add(i, 'day').format('L'));
-    let $pTemp = $('<p>').text('Temperature: ').append($('<span>').attr('id', 'temp-' + i));
+    let $h4 = $('<h4>').addClass("uk-card-title").text(moment().add(i, 'day').format('L dddd'));
+    let $pTemp = $('<p>').text('High of the Day: ').append($('<span>').attr('id', 'temp-' + i));
     let $pHumidity = $('<p>').text('Humidity: ').append($('<span>').attr('id', 'humidity-' + i));
     $div.append($innerDiv.append($h4, $pTemp, $pHumidity));
     $('.uk-grid-match').append($div);
@@ -35,13 +21,18 @@ $(document).ready(function() {
     }
   }
   renderCities();
+  
   $("#add-city").on("click", function(event) {
     event.preventDefault();
     let city = $("#city-input").val().trim();
     cities.unshift(city);
     renderCities();
   });
-
+  $(document).on("click", ".trash", function(event) {
+    const index = event.target.parentElement.parentElement.getAttribute("data-index");
+    cities.splice(index, 1);
+    renderCities();
+  });
   $(document).on("click", ".city-link", function(event) {
     event.preventDefault();
     const cityName = event.target.parentElement.textContent;
@@ -51,7 +42,7 @@ $(document).ready(function() {
         url: "https://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&units=" + tempUnit + "&appid=" + APIKey,
         method: "GET"
     }).then(function(response) {
-      $('#current-city').text(`${response.name} (${moment().format('L')})`);
+      $('#current-city').text(`${response.name} (${moment().format('L dddd')})`);
       $('#today-temp').text(`${response.main.feels_like}°F`);
       $('#today-humidity').text(`${response.main.humidity}%`);
       $('#today-wind').text(response.wind.speed);
@@ -75,6 +66,7 @@ $(document).ready(function() {
       url: "https://api.openweathermap.org/data/2.5/forecast?q=" + cityName + "&units=" + tempUnit + "&appid=" + APIKey,
       method: "GET"
     }).then(function(response) {
+      console.log(response);
       $('#temp-1').text(`${response.list[4].main.temp_max}°F`);
       $('#humidity-1').text(`${response.list[4].main.humidity}%`);
       $('#temp-2').text(`${response.list[12].main.temp_max}°F`);
@@ -86,10 +78,5 @@ $(document).ready(function() {
       $('#temp-5').text(`${response.list[36].main.temp_max}°F`);
       $('#humidity-5').text(`${response.list[36].main.humidity}%`);
     });
-  });
-  $(document).on("click", ".trash", function(event) {
-    const index = event.target.parentElement.getAttribute("data-index");
-    cities.splice(index, 1);
-    renderCities();
   });
 });
