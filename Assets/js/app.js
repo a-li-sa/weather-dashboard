@@ -13,7 +13,7 @@ $(document).ready(function() {
     $('.uk-grid-match').append($div);
   }
 
-  let cities = ["Austin", "Chicago", "New York", "Orlando", "San Francisco", "Seattle", "Denver", "Atlanta"];
+  let cities = ["austin", "chicago", "new york", "orlando", "san francisco", "seattle", "denver", "atlanta"];
   
   function renderCityList() {
     $("#view-city-cards").empty();
@@ -30,12 +30,33 @@ $(document).ready(function() {
 
   $("#add-city").on("click", function(event) {
     event.preventDefault();
-    let city = $("#city-input").val().trim();
+    let city = $("#city-input").val().trim().toLowerCase();
     cities.unshift(city);
-    $("#city-input").val("");
-    renderCityList();
-    $('#city-0').children().first().click();
+    findDuplicates(cities);
+    if (findDuplicates(cities) === '') {
+      $("#city-input").val("");
+      renderCityList();
+      $('#city-0').children().first().click();
+    } else {
+      cities.shift();
+      for (let i = 0; i < cities.length; i++) {
+        if (cities[i] === city) {
+          $(`#city-${i}`).children().first().click();
+        }
+      }
+    }
   });
+
+  let findDuplicates = (arr) => {
+    let sorted_arr = arr.slice().sort();
+    let results = '';
+    for (let i = 0; i < sorted_arr.length - 1; i++) {
+      if (sorted_arr[i + 1] == sorted_arr[i]) {
+        results += (sorted_arr[i]);
+      }
+    }
+    return results;
+  }
 
   $(document).on("click", ".trash", function(event) {
     const index = event.target.parentElement.parentElement.getAttribute("data-index");
@@ -54,7 +75,6 @@ $(document).ready(function() {
         url: "https://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&units=" + tempUnit + "&set=unix&appid=" + APIKey,
         method: "GET"
     }).then(function(response) {
-      console.log(response);
       $('#current-city').text(`${response.name}, ${response.sys.country}`)
       $('#current-city').append($('<span>').addClass("uk-float-right uk-text-light").text(`${moment().format('dddd, l')}`));
       $('.current-description').html(response.weather[0].description);
@@ -63,8 +83,8 @@ $(document).ready(function() {
       $('#feels-like').text(`${response.main.feels_like}°F`);
       $('#today-humidity').text(`${response.main.humidity}%`);
       $('#today-wind').text(`${response.wind.speed} MPH`);
-      $('#sunrise').text(moment(response.sys.sunrise * 1000).format('LT'));
-      $('#sunset').text(moment(response.sys.sunset * 1000).format('LT'));
+      $('#sunrise').text(moment.unix(response.sys.sunrise).format('LT'));
+      $('#sunset').text(moment.unix(response.sys.sunset).format('LT'));
       let lat = response.coord.lat;
       let lon = response.coord.lon;
       $.ajax({
@@ -85,7 +105,6 @@ $(document).ready(function() {
       url: "https://api.openweathermap.org/data/2.5/forecast/daily?q=" + cityName + "&units=" + tempUnit + "&appid=" + APIKey,
       method: "GET"
     }).then(function(response) {
-      console.log(response);
       for (let i = 0; i < 5; i++) {
         $(`#descr-${i+1}`).text(response.list[i].weather[0].description)
         $(`#icon-${i+1}`).attr("src", `http://openweathermap.org/img/wn/${response.list[i].weather[0].icon}@2x.png`);
