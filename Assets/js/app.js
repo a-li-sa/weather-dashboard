@@ -4,9 +4,10 @@ $(document).ready(function() {
     let $div = $('<div>');
     let $innerDiv = $('<div>').addClass('uk-card uk-card-default uk-card-body');
     let $h4 = $('<h4>').addClass("uk-card-title").text(moment().add(i, 'day').format('dddd, M/D/YYYY'));
+    let $img = $('<img>').attr("alt", "weather icon").attr("id", "icon-" + i);
     let $pTemp = $('<p>').text('High of the Day: ').append($('<span>').attr('id', 'temp-' + i));
     let $pHumidity = $('<p>').text('Humidity: ').append($('<span>').attr('id', 'humidity-' + i));
-    $div.append($innerDiv.append($h4, $pTemp, $pHumidity));
+    $div.append($innerDiv.append($h4, $img, $pTemp, $pHumidity));
     $('.uk-grid-match').append($div);
   }
   let cities = ["Austin", "Chicago", "New York", "Orlando", "San Francisco", "Seattle", "Denver", "Atlanta"];
@@ -21,11 +22,11 @@ $(document).ready(function() {
     }
   }
   renderCities();
-  
   $("#add-city").on("click", function(event) {
     event.preventDefault();
     let city = $("#city-input").val().trim();
     cities.unshift(city);
+    $("#city-input").val("");
     renderCities();
   });
   $(document).on("click", ".trash", function(event) {
@@ -43,9 +44,10 @@ $(document).ready(function() {
         method: "GET"
     }).then(function(response) {
       $('#current-city').text(`${response.name} (${moment().format('dddd, M/D/YYYY')})`);
+      $('#today-icon').attr('src', `http://openweathermap.org/img/wn/${response.weather[0].icon}@2x.png`)
       $('#today-temp').text(`${response.main.feels_like}°F`);
       $('#today-humidity').text(`${response.main.humidity}%`);
-      $('#today-wind').text(response.wind.speed);
+      $('#today-wind').text(`${response.wind.speed} MPH`);
       let lat = response.coord.lat;
       let lon = response.coord.lon;
       $.ajax({
@@ -66,15 +68,19 @@ $(document).ready(function() {
       url: "https://api.openweathermap.org/data/2.5/forecast?q=" + cityName + "&units=" + tempUnit + "&appid=" + APIKey,
       method: "GET"
     }).then(function(response) {
-      console.log(response);
+      $('#icon-1').attr("src", `http://openweathermap.org/img/wn/${response.list[4].weather[0].icon}@2x.png`);
       $('#temp-1').text(`${response.list[4].main.temp_max}°F`);
       $('#humidity-1').text(`${response.list[4].main.humidity}%`);
+      $('#icon-2').attr("src", `http://openweathermap.org/img/wn/${response.list[12].weather[0].icon}@2x.png`);
       $('#temp-2').text(`${response.list[12].main.temp_max}°F`);
       $('#humidity-2').text(`${response.list[12].main.humidity}%`);
+      $('#icon-3').attr("src", `http://openweathermap.org/img/wn/${response.list[20].weather[0].icon}@2x.png`);
       $('#temp-3').text(`${response.list[20].main.temp_max}°F`);
       $('#humidity-3').text(`${response.list[20].main.humidity}%`);
+      $('#icon-4').attr("src", `http://openweathermap.org/img/wn/${response.list[28].weather[0].icon}@2x.png`);
       $('#temp-4').text(`${response.list[28].main.temp_max}°F`);
       $('#humidity-4').text(`${response.list[28].main.humidity}%`);
+      $('#icon-5').attr("src", `http://openweathermap.org/img/wn/${response.list[36].weather[0].icon}@2x.png`);
       $('#temp-5').text(`${response.list[36].main.temp_max}°F`);
       $('#humidity-5').text(`${response.list[36].main.humidity}%`);
     });
