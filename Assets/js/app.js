@@ -86,7 +86,7 @@ $(document).ready(function() {
       let lat = response.coord.lat;
       let lon = response.coord.lon;
       $.ajax({
-        url: `https://api.geonames.org/timezoneJSON?lat=${lat.toFixed(2)}&lng=${lon.toFixed(2)}&username=zigzagpoon`,
+        url: `http://api.geonames.org/timezoneJSON?lat=${lat.toFixed(2)}&lng=${lon.toFixed(2)}&username=zigzagpoon`,
         method: "GET"
       }).then(function(response) {
         $('#sunrise').text((moment.tz(response.sunrise, response.timezoneId)).format('LT'));
