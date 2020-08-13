@@ -13,8 +13,12 @@ $(document).ready(function() {
     $('.uk-grid-match').append($div);
   }
 
-  let cities = ["austin", "chicago", "new york", "orlando", "san francisco", "seattle", "denver", "atlanta"];
+  let cities = [];
   
+  function storeCities() {
+    localStorage.setItem("cities", JSON.stringify(cities));
+  }
+
   function renderCityList() {
     $("#view-city-cards").empty();
     for (let i = 0; i < cities.length; i++) {
@@ -26,7 +30,18 @@ $(document).ready(function() {
     }
   }
 
-  renderCityList();
+  function init() {
+    if (localStorage.getItem("cities")) {
+      const savedCities = JSON.parse(localStorage.getItem("cities"))
+      cities.push(...savedCities);
+    } else {
+      let defaultCities = ["austin", "chicago", "new york", "orlando", "san francisco", "seattle", "denver", "atlanta"];
+      cities.push(...defaultCities);
+    }
+    renderCityList();
+  }
+
+  init();
 
   $("#add-city").on("click", function(event) {
     event.preventDefault();
@@ -36,6 +51,7 @@ $(document).ready(function() {
     if (findDuplicates(cities) === '') {
       $("#city-input").val("");
       renderCityList();
+      storeCities();
       $('#city-0').children().first().click();
     } else {
       cities.shift();
@@ -61,6 +77,7 @@ $(document).ready(function() {
   $(document).on("click", ".trash", function(event) {
     const index = event.target.parentElement.parentElement.getAttribute("data-index");
     cities.splice(index, 1);
+    storeCities();
     renderCityList();
   });
 
@@ -91,7 +108,6 @@ $(document).ready(function() {
       }).then(function(response) {
         $('#sunrise').text((moment.tz(response.sunrise, response.timezoneId)).format('LT'));
         $('#sunset').text((moment.tz(response.sunset, response.timezoneId)).format('LT'));
-
       }); 
       $.ajax({
         url: "https://api.openweathermap.org/data/2.5/uvi?lat=" + lat + "&lon=" + lon + "&appid=" + APIKey,
