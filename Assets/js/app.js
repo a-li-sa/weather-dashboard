@@ -1,9 +1,9 @@
 $(document).ready(function() {
-  $('#today-date').text(`(${moment().format('L dddd')})`);
+  $('#today-date').text(`(${moment().format('dddd, M/D/YYYY')})`);
   for (let i = 1; i < 6; i++) {
     let $div = $('<div>');
     let $innerDiv = $('<div>').addClass('uk-card uk-card-default uk-card-body');
-    let $h4 = $('<h4>').addClass("uk-card-title").text(moment().add(i, 'day').format('L dddd'));
+    let $h4 = $('<h4>').addClass("uk-card-title").text(moment().add(i, 'day').format('dddd, M/D/YYYY'));
     let $pTemp = $('<p>').text('High of the Day: ').append($('<span>').attr('id', 'temp-' + i));
     let $pHumidity = $('<p>').text('Humidity: ').append($('<span>').attr('id', 'humidity-' + i));
     $div.append($innerDiv.append($h4, $pTemp, $pHumidity));
@@ -42,7 +42,7 @@ $(document).ready(function() {
         url: "https://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&units=" + tempUnit + "&appid=" + APIKey,
         method: "GET"
     }).then(function(response) {
-      $('#current-city').text(`${response.name} (${moment().format('L dddd')})`);
+      $('#current-city').text(`${response.name} (${moment().format('dddd, M/D/YYYY')})`);
       $('#today-temp').text(`${response.main.feels_like}°F`);
       $('#today-humidity').text(`${response.main.humidity}%`);
       $('#today-wind').text(response.wind.speed);
