@@ -75,24 +75,24 @@ $(document).ready(function() {
       });
     });
     $.ajax({
-      url: "https://api.openweathermap.org/data/2.5/forecast?q=" + cityName + "&units=" + tempUnit + "&appid=" + APIKey,
+      url: "https://api.openweathermap.org/data/2.5/forecast/daily?q=" + cityName + "&units=" + tempUnit + "&appid=" + APIKey,
       method: "GET"
     }).then(function(response) {
-      $('#icon-1').attr("src", `http://openweathermap.org/img/wn/${response.list[4].weather[0].icon}@2x.png`);
-      $('#temp-1').text(`${response.list[4].main.temp_max}°F`);
-      $('#humidity-1').text(`${response.list[4].main.humidity}%`);
-      $('#icon-2').attr("src", `http://openweathermap.org/img/wn/${response.list[12].weather[0].icon}@2x.png`);
-      $('#temp-2').text(`${response.list[12].main.temp_max}°F`);
-      $('#humidity-2').text(`${response.list[12].main.humidity}%`);
-      $('#icon-3').attr("src", `http://openweathermap.org/img/wn/${response.list[20].weather[0].icon}@2x.png`);
-      $('#temp-3').text(`${response.list[20].main.temp_max}°F`);
-      $('#humidity-3').text(`${response.list[20].main.humidity}%`);
-      $('#icon-4').attr("src", `http://openweathermap.org/img/wn/${response.list[28].weather[0].icon}@2x.png`);
-      $('#temp-4').text(`${response.list[28].main.temp_max}°F`);
-      $('#humidity-4').text(`${response.list[28].main.humidity}%`);
-      $('#icon-5').attr("src", `http://openweathermap.org/img/wn/${response.list[36].weather[0].icon}@2x.png`);
-      $('#temp-5').text(`${response.list[36].main.temp_max}°F`);
-      $('#humidity-5').text(`${response.list[36].main.humidity}%`);
+      $('#icon-1').attr("src", `http://openweathermap.org/img/wn/${response.list[0].weather[0].icon}@2x.png`);
+      $('#temp-1').text(`${response.list[0].temp.max}°F`);
+      $('#humidity-1').text(`${response.list[0].humidity}%`);
+      $('#icon-2').attr("src", `http://openweathermap.org/img/wn/${response.list[1].weather[0].icon}@2x.png`);
+      $('#temp-2').text(`${response.list[1].temp.max}°F`);
+      $('#humidity-2').text(`${response.list[1].humidity}%`);
+      $('#icon-3').attr("src", `http://openweathermap.org/img/wn/${response.list[2].weather[0].icon}@2x.png`);
+      $('#temp-3').text(`${response.list[2].temp.max}°F`);
+      $('#humidity-3').text(`${response.list[2].humidity}%`);
+      $('#icon-4').attr("src", `http://openweathermap.org/img/wn/${response.list[3].weather[0].icon}@2x.png`);
+      $('#temp-4').text(`${response.list[3].temp.max}°F`);
+      $('#humidity-4').text(`${response.list[3].humidity}%`);
+      $('#icon-5').attr("src", `http://openweathermap.org/img/wn/${response.list[4].weather[0].icon}@2x.png`);
+      $('#temp-5').text(`${response.list[4].temp.max}°F`);
+      $('#humidity-5').text(`${response.list[4].humidity}%`);
     });
   };
   
