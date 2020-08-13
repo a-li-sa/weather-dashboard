@@ -57,6 +57,7 @@ $(document).ready(function() {
       storeCities();
       $('#city-0').children().first().click();
     } else {
+      $("#city-input").val("");
       cities.shift();
       for (let i = 0; i < cities.length; i++) {
         if (cities[i] === city) {
