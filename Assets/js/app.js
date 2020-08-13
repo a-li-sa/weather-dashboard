@@ -70,7 +70,7 @@ $(document).ready(function() {
     event.preventDefault();
     const cityName = event.target.parentElement.textContent;
     let tempUnit = "imperial";
-    let APIKey = "166a433c57516f51dfab1f7edaed8413";
+    let APIKey = "852968cb61edf5b792db65f8d6deefa1";
     $.ajax({
         url: "https://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&units=" + tempUnit + "&set=unix&appid=" + APIKey,
         method: "GET"
@@ -86,11 +86,11 @@ $(document).ready(function() {
       let lat = response.coord.lat;
       let lon = response.coord.lon;
       $.ajax({
-        url: `http://api.geonames.org/timezoneJSON?lat=${lat.toFixed(2)}&lng=${lon.toFixed(2)}&username=ksuhiyp`,
+        url: `http://api.geonames.org/timezoneJSON?lat=${lat.toFixed(2)}&lng=${lon.toFixed(2)}&username=zigzagpoon`,
         method: "GET"
       }).then(function(response) {
-        $('#sunrise').text(moment(moment.tz(response.sunrise.toString(), response.timezoneId.toString())).format('LT'));
-        $('#sunset').text(moment(moment.tz(response.sunset.toString(), response.timezoneId.toString())).format('LT'));
+        $('#sunrise').text((moment.tz(response.sunrise, response.timezoneId)).format('LT'));
+        $('#sunset').text((moment.tz(response.sunset, response.timezoneId)).format('LT'));
 
       }); 
       $.ajax({
