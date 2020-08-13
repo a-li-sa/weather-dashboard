@@ -78,7 +78,7 @@ $(document).ready(function() {
       $('#current-city').text(`${response.name}, ${response.sys.country}`)
       $('#current-city').append($('<span>').addClass("uk-float-right uk-text-light").text(`${moment().format('dddd, l')}`));
       $('.current-description').html(response.weather[0].description);
-      $('#today-icon').attr('src', `http://openweathermap.org/img/wn/${response.weather[0].icon}@2x.png`)
+      $('#today-icon').attr('src', `https://openweathermap.org/img/wn/${response.weather[0].icon}@2x.png`)
       $('#today-temp').text(`${response.main.temp}°F`);
       $('#feels-like').text(`${response.main.feels_like}°F`);
       $('#today-humidity').text(`${response.main.humidity}%`);
@@ -113,7 +113,7 @@ $(document).ready(function() {
     }).then(function(response) {
       for (let i = 0; i < 5; i++) {
         $(`#descr-${i+1}`).text(response.list[i].weather[0].description)
-        $(`#icon-${i+1}`).attr("src", `http://openweathermap.org/img/wn/${response.list[i].weather[0].icon}@2x.png`);
+        $(`#icon-${i+1}`).attr("src", `https://openweathermap.org/img/wn/${response.list[i].weather[0].icon}@2x.png`);
         $(`#temp-${i+1}`).text(`${Math.floor(response.list[i].temp.max)}°F / ${Math.floor(response.list[i].temp.min)}°F`);
         $(`#humidity-${i+1}`).text(`${response.list[i].humidity}%`);
       }
