@@ -70,7 +70,7 @@ $(document).ready(function() {
     event.preventDefault();
     const cityName = event.target.parentElement.textContent;
     let tempUnit = "imperial";
-    let APIKey = "852968cb61edf5b792db65f8d6deefa1";
+    let APIKey = "166a433c57516f51dfab1f7edaed8413";
     $.ajax({
         url: "https://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&units=" + tempUnit + "&set=unix&appid=" + APIKey,
         method: "GET"
