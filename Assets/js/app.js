@@ -50,7 +50,7 @@ $(document).ready(function() {
     findDuplicates(cities);
     if (city === '') {
       return cities.shift();
-    } else if (findDuplicates(cities) === '') {
+    } else if (findDuplicates(cities) === '' && city !== '') {
       $("#city-input").val("");
       renderCityList();
       storeCities();
