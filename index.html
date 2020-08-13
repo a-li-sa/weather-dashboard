@@ -10,11 +10,11 @@
     
     <nav class="uk-navbar" uk-navbar>
       <div class="uk-navbar-center">
-        <a class="uk-navbar-item uk-logo" href="#">Weather Dashboard</a>
+        <a class="uk-navbar-item uk-logo uk-text-bold" href="#">Weather Dashboard</a>
       </div>
     </nav>
 
-    <div class="uk-container uk-margin uk-width-1-4@l uk-width-1-3@m uk-float-left">
+    <div class="uk-container uk-margin uk-width-1-5@xl uk-width-1-4@l uk-width-1-3@m uk-float-left">
       <div class="uk-margin">
         <p class="uk-text-uppercase uk-text-small">Search for a city</p>
         <form class="uk-search uk-search-default uk-width-1">
@@ -35,14 +35,52 @@
       </div>
     </div>
     
-    <div class="uk-container uk-margin uk-width-3-4@l uk-width-2-3@m uk-float-right">
+    <div class="uk-container uk-margin uk-width-4-5@xl uk-width-3-4@l uk-width-2-3@m uk-float-right">
       <div class="uk-card uk-card-default uk-card-body">
-        <h2 class="uk-card-title" id="current-city"><span id="today-date" class="uk-float-right"></span></h2>
-        <img id="today-icon" alt="weather icon"/>
-        <p>Temperature: <span id="today-temp"></span></p>
-        <p>Humidity: <span id="today-humidity"></span></p>
-        <p>Wind Speed: <span id="today-wind"></span></p>
-        <p>UV Index: <span id="today-uv"></span></p>
+        <h2 class="uk-card-title" id="current-city"></h2>
+        <div class="uk-float-right uk-text-right">
+          <p class="uk-text-uppercase uk-text-small current-description"></p>
+          <img id="today-icon" alt="weather icon"/>
+          <table class="uk-table uk-table-striped">
+            <thead>
+              <tr>
+                <th></th>
+                <th>Currently</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Temperature</td>
+                <td><span id="today-temp"></span></td>
+              </tr>
+              <tr>
+                <td>Feels Like</td>
+                <td><span id="feels-like"></span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="uk-float-left uk-text-left">
+          <br>
+          <p>Humidity: <span id="today-humidity"></span></p>
+          <p>Wind Speed: <span id="today-wind"></span></p>
+          <p>UV Index: <span id="today-uv"></span></p>
+          <br>
+          <table class="uk-table uk-table-divider">
+            <thead>
+              <tr>
+                <th>Sunrise</th>
+                <th>Sunset</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span id="sunrise"></span></td>
+                <td><span id="sunset"></span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
       <h3 class="uk-text-center">5-Day Forecast</h3>
       <div class="uk-child-width-1-5@xl uk-child-width-1-3@l uk-child-width-1-2@m uk-child-width-1-2@s uk-grid-small uk-grid-match" uk-grid>
