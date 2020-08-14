@@ -44,7 +44,9 @@ $(document).ready(function() {
 
   init();
 
-  $("#add-city").on("click", function (event) {
+  $("#add-city").on("click", addToList);
+  
+  function addToList (event) {
     event.preventDefault();
     let city = $("#city-input").val().trim().toLowerCase();
     cities.unshift(city);
@@ -64,16 +66,14 @@ $(document).ready(function() {
         }
       }
     }
-  });
+  };
 
   $("#city-input").bind('keypress', function(event) {
     if (event.keyCode === 13) {
       event.preventDefault();
       $("#add-city").click();
-      $('#city-0').children().first()[0].click();
     }
   });
-
 
   let findDuplicates = (arr) => {
     let sorted_arr = arr.slice().sort();
