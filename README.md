@@ -23,9 +23,9 @@ URL of the GitHub repository: https://github.com/a-li-sa/weather-dashboard
 
 >Developers are often tasked with retrieving data from another application's API and using it in the context of their own. Third-party APIs allow developers to access their data and functionality by making requests with specific parameters to a URL. 
 
-I built a weather dashboard that runs in the browser and feature dynamically updated HTML and CSS. I used the [OpenWeather API](https://openweathermap.org/api) and the [GeoNames API](http://www.geonames.org/export/web-services.html) to retrieve weather data and timezones for cities. [Moment](https://momentjs.com/) and [Moment Timezone](https://momentjs.com/timezone/) used in this application to display the dates on the weather forecast as well as the sunrise and sunset times. 
+I built a weather dashboard that runs in the browser and features dynamically updated HTML and CSS. I used the [OpenWeather API](https://openweathermap.org/api) and the [GeoNames API](http://www.geonames.org/export/web-services.html) to retrieve weather data and timezones for cities. [Moment](https://momentjs.com/) and [Moment Timezone](https://momentjs.com/timezone/) were used in this application to display the dates on the weather forecast as well as the sunrise and sunset times. 
 
-This application is for anyone, especially travelers who want to see the weather outlook for multiple cities to plan a trip accordingly.
+This application is for anyone, especially for travelers who want to see the weather outlook for multiple cities to plan a trip accordingly.
 
 ### Acceptance Criteria 
 GIVEN a weather dashboard with form inputs
@@ -42,7 +42,7 @@ To view the website, you can click [here](https://a-li-sa.github.io/weather-dash
 
 ## Usage
 
-In this application, the user can find date and the following weather information for a particular city:
+In this application, the user can find the date and the following weather information for a particular city:
 
 * Description of the weather conditions
 * Temperature
@@ -56,7 +56,7 @@ The page also shows the forecast for the next 5 days, displaying the description
 
 <p><img src="Assets/homework6-0.jpg"width="600"/></p>
 
-Use the search input on the left to enter the name of a city, and then press the enter key or the search icon button. The city will be added to the top of the collapsible list on the left side, and the city's information gets displayed on the right.
+Use the search input on the left to enter the name of a city, and then press the enter key or the search icon button. The city name gets added to the top of the collapsible list on the left side, and the city's information gets displayed on the right.
 
 When the page is refreshed, the search inputs will be saved to the local storage, and the browser will display the weather information for the first city on the list.
 
@@ -68,7 +68,7 @@ To view the information of a city on the list, click the city's name.
 
 <p><img src="Assets/homework6-2.gif"width="600"/></p>
 
-On mobile, clicking the search icon button or the city names on the list will scroll to the weather information.
+This webpage will also run on mobile devices. Clicking the search icon button or any city name on the collapsible list will scroll the page down to the weather information.
 
 <p float="left">
   <img src="Assets/homework6-3.gif"width="295"/> 
