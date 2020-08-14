@@ -67,8 +67,8 @@ $(document).ready(function() {
   });
 
   $("#city-input").bind('keypress', function(event) {
-    event.preventDefault();
     if (event.keyCode === 13) {
+      event.preventDefault();
       $("#add-city").click();
     }
   });
