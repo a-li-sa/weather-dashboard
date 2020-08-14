@@ -3,13 +3,14 @@ $(document).ready(function() {
   $('#today-date').text(`${moment().format('dddd, l')}`);
   for (let i = 1; i < 6; i++) {
     let $div = $('<div>');
-    let $innerDiv = $('<div>').addClass('uk-card uk-card-default uk-card-body');
-    let $h4 = $('<h4>').addClass('uk-card-title uk-text-center uk-text-light').text(moment().add(i, 'day').format('dddd, l'));
+    let $innerDiv = $('<div>').addClass('uk-card uk-card-default uk-card-small');
+    let $h4 = $('<h4>').addClass('uk-card-title uk-text-center uk-text-light uk-padding').text(moment().add(i, 'day').format('dddd, l'));
     let $img = $('<img>').attr('alt', 'weather icon').attr('id', 'icon-' + i);
     let $pDescr = $('<p>').addClass('uk-text-uppercase uk-text-small').attr('id', 'descr-' + i);
-    let $pTemp = $('<p>').text('High / Low: ').append($('<span>').attr('id', 'temp-' + i));
-    let $pHumidity = $('<p>').text('Humidity: ').append($('<span>').attr('id', 'humidity-' + i));
-    $div.append($innerDiv.append($h4.append('<br>', $pDescr, $img), $pTemp, $pHumidity));
+    let $table = $('<table>').addClass('uk-table');
+    let $trTemp = $('<tr>').append($('<td>').text('High / Low:'), $('<td>').append($('<span>').attr('id', 'temp-' + i)));
+    let $trHumidity = $('<tr>').append($('<td>').text('Humidity:'), $('<td>').append($('<span>').attr('id', 'humidity-' + i)));
+    $div.append($innerDiv.append($h4.append('<br>', $pDescr, $img), $table.append($trTemp, $trHumidity)));
     $('.uk-grid-match').append($div);
   }
 
@@ -43,7 +44,7 @@ $(document).ready(function() {
 
   init();
 
-  $("#add-city").on("click", function(event) {
+  $("#add-city").on("click", function (event) {
     event.preventDefault();
     let city = $("#city-input").val().trim().toLowerCase();
     cities.unshift(city);
@@ -64,6 +65,14 @@ $(document).ready(function() {
       }
     }
   });
+
+  $("#city-input").bind('keypress', function(event) {
+    event.preventDefault();
+    if (event.keyCode === 13) {
+      $("#add-city").click();
+    }
+  });
+
 
   let findDuplicates = (arr) => {
     let sorted_arr = arr.slice().sort();
