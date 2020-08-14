@@ -70,6 +70,7 @@ $(document).ready(function() {
     if (event.keyCode === 13) {
       event.preventDefault();
       $("#add-city").click();
+      $('#city-0').children().first()[0].click();
     }
   });
 
