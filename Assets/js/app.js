@@ -50,17 +50,16 @@ $(document).ready(function() {
     findDuplicates(cities);
     if (city === '') {
       return cities.shift();
-    } else if (findDuplicates(cities) === '' && city !== '') {
+    } else if ((findDuplicates(cities) === '') && (city !== '')) {
       $("#city-input").val("");
       renderCityList();
       storeCities();
-      $('#city-0').children().first().click();
-      $('#add-city').parent().click();
+      $('#city-0').children().first()[0].click();
     } else {
       cities.shift();
       for (let i = 0; i < cities.length; i++) {
         if (cities[i] === city) {
-          $(`#city-${i}`).children().first().click();
+          $(`#city-${i}`).children().first()[0].click();
         }
       }
     }
