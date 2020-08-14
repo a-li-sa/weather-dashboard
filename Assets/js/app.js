@@ -60,6 +60,7 @@ $(document).ready(function() {
       $('#city-0').children().first()[0].click();
     } else {
       cities.shift();
+      $("#city-input").val("");
       for (let i = 0; i < cities.length; i++) {
         if (cities[i] === city) {
           $(`#city-${i}`).children().first()[0].click();
