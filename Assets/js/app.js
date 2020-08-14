@@ -97,7 +97,7 @@ $(document).ready(function() {
     }).then(function(response) {
       $('#current-city').text(`${response.name}, ${response.sys.country}`)
       $('#current-city').append($('<span>').addClass("uk-text-light").html(`<br>${moment().format('dddd, LL')}`));
-      $('#current-city').append($('<span>').addClass("uk-float-right uk-text-uppercase uk-text-small uk-text-bold").html(`<br>Looks Like<br>`));
+      $('#current-city').append($('<p>').addClass("uk-text-right uk-text-uppercase uk-text-small uk-text-bold").html(`Looks Like`));
       $('.current-description').html(response.weather[0].description);
       $('#today-icon').attr('src', `https://openweathermap.org/img/wn/${response.weather[0].icon}@2x.png`)
       $('#today-temp').text(`${response.main.temp}°F`);
