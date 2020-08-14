@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html class="uk-background-muted">
   <head>
+    <link rel='icon' href='favicon.ico' type='image/x-icon'/>
     <title>Weather Dashboard</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -10,7 +11,7 @@
     
     <nav class="uk-navbar" uk-navbar>
       <div class="uk-navbar-center">
-        <a class="uk-navbar-item uk-logo uk-text-bold" href="#">Weather Dashboard</a>
+        <a class="uk-navbar-item uk-logo uk-text-bold" href="#">Weather Dashb<span style="font-size: 28px; font-family:'Courier'; color: #ec6e4c;">o</span>ard</a>
       </div>
     </nav>
 
@@ -61,11 +62,12 @@
           </table>
         </div>
         <div class="uk-float-left uk-text-left">
+          <hr>
           <br>
           <p>Humidity: <span id="today-humidity"></span></p>
           <p>Wind Speed: <span id="today-wind"></span></p>
           <p>UV Index: <span id="today-uv"></span></p>
-          <br>
+          <hr class="uk-invisible">
           <table class="uk-table uk-table-divider">
             <thead>
               <tr>
