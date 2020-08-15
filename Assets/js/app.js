@@ -1,6 +1,17 @@
 $(document).ready(function() {
-
+// make the html elements
+  // today's date under the city name
   $('#today-date').text(`${moment().format('dddd, l')}`);
+  // table for the hourly forecast 
+  for (let i = 1; i < 48; i++) {
+    let $hour = $('<th>').append($('<span>').attr('id', `hour-${i}`));
+    $('#hourly-hour').append($hour);
+    let $hourTemp = $('<td>').append($('<span>').attr('id', `hour-${i}-temp`));
+    $('#hourly-temp').append($hourTemp);
+    let $hourFeels = $('<td>').append($('<span>').attr('id', `hour-${i}-feels`));
+    $('#hourly-feels').append($hourFeels);
+  }
+  // 5 cards, 1 for each day for the 5 day forecast
   for (let i = 1; i < 6; i++) {
     let $div = $('<div>');
     let $innerDiv = $('<div>').addClass('uk-card uk-card-default uk-card-small');
@@ -13,13 +24,12 @@ $(document).ready(function() {
     $div.append($innerDiv.append($h4.append('<br>', $pDescr, $img), $table.append($trTemp, $trHumidity)));
     $('.uk-grid-match').append($div);
   }
-
+// for local storage
+  //array to be saved to local storage
   let cities = [];
-  
   function storeCities() {
     localStorage.setItem("cities", JSON.stringify(cities));
   }
-
   function renderCityList() {
     $("#view-city-cards").empty();
     for (let i = 0; i < cities.length; i++) {
@@ -30,7 +40,6 @@ $(document).ready(function() {
       $("#view-city-cards").append($d);
     }
   }
-
   function init() {
     if (localStorage.getItem("cities")) {
       const savedCities = JSON.parse(localStorage.getItem("cities"))
@@ -41,22 +50,27 @@ $(document).ready(function() {
     }
     renderCityList();
   }
-
+  // when this function is called, the city list will be rendered from array (from local storage or the default list)
   init();
-  
+// render a new city to the list using the search input
   function addToList (event) {
     event.preventDefault();
     let city = $("#city-input").val().trim().toLowerCase();
+    // add city to the beginning of the array
     cities.unshift(city);
+    // check if city is already on the list
     findDuplicates(cities);
     if (city === '') {
+      // if input is empty remove input from cities array
       return cities.shift();
     } else if ((findDuplicates(cities) === '') && (city !== '')) {
+      // if the input is not already in the array and it is not an empty string, render to list and store in local storage
       $("#city-input").val("");
       renderCityList();
       storeCities();
       $('#city-0').children().first()[0].click();
     } else {
+      // if input is already on the list, remove from the cities array and show the city on the page
       cities.shift();
       $("#city-input").val("");
       for (let i = 0; i < cities.length; i++) {
@@ -66,7 +80,7 @@ $(document).ready(function() {
       }
     }
   };
-
+  // call this to find duplicates in the cities array
   let findDuplicates = (arr) => {
     let sorted_arr = arr.slice().sort();
     let results = '';
@@ -77,25 +91,24 @@ $(document).ready(function() {
     }
     return results;
   }
-
+  // when search icon button is pressed, call the addToList function
   $("#add-city").on("click", addToList);
-
+  // when the return key is pressed, do the above action
   $("#city-input").bind('keypress', function(event) {
     if (event.keyCode === 13) {
       event.preventDefault();
       $("#add-city").click();
     }
   });
-
+// click the close button to remove the city from the list
   $(document).on("click", ".trash", function(event) {
     const index = event.target.parentElement.parentElement.getAttribute("data-index");
     cities.splice(index, 1);
     storeCities();
     renderCityList();
   });
-
+// on the list, click the city name to display weather info
   $(document).on("click", ".city-link", displayInfo);
-  
   function displayInfo(event) {
     event.preventDefault();
     const cityName = event.target.parentElement.textContent;
@@ -105,30 +118,33 @@ $(document).ready(function() {
         url: "https://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&units=" + tempUnit + "&set=unix&appid=" + APIKey,
         method: "GET"
     }).then(function(response) {
+    // display the city name and country
       $('#current-city').text(`${response.name}, ${response.sys.country}`)
       let lat = response.coord.lat;
       let lon = response.coord.lon;
+    // use lat and lon to access onecall api
       $.ajax({
         url: `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&units=${tempUnit}&appid=${APIKey}`,
         method: "GET"
       }).then(function(response) {
+        $('.today-temp').text(`${Math.floor(response.current.temp)}°F`);
         $('.current-description').html(response.current.weather[0].description);
         $('#today-icon').attr('src', `https://openweathermap.org/img/wn/${response.current.weather[0].icon}@2x.png`)
-        $('.today-temp').text(`${Math.floor(response.current.temp)}°F`);
         $('#morning').text(`${Math.floor(response.daily[0].temp.morn)}°F`);
         $('#afternoon').text(`${Math.floor(response.daily[0].temp.day)}°F`);
         $('#evening').text(`${Math.floor(response.daily[0].temp.eve)}°F`);
         $('#night').text(`${Math.floor(response.daily[0].temp.night)}°F`);
         $('#feels-like').text(`${Math.floor(response.current.feels_like)}°F`);
         $('#today-humidity').text(`${response.current.humidity}%`);
+      // convert degrees to direction
         function degToCompass(num) {
           let val = Math.floor((num / 22.5) + 0.5);
           let arr = ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"];
           return arr[(val % 16)];
         }
         let windDirection = degToCompass(response.current.wind_deg);
-        console.log(response.current.uvi);
         $('#today-wind').text(`${response.current.wind_speed} MPH ${windDirection}`);
+      // green, yellow, or red alerts for the uv index
         $('#today-uv').text(response.current.uvi);
         if (response.current.uvi < 3) {
           $('#today-uv').attr('class', 'uk-alert-success');
@@ -137,21 +153,31 @@ $(document).ready(function() {
         } else {
           $('#today-uv').attr('class','uk-alert-danger');
         }
+      // information for the 5 day forecast
         for (let i = 0; i < 5; i++) {
           $(`#descr-${i+1}`).text(response.daily[i].weather[0].description)
           $(`#icon-${i+1}`).attr("src", `https://openweathermap.org/img/wn/${response.daily[i].weather[0].icon}@2x.png`);
           $(`#temp-${i+1}`).text(`${Math.floor(response.daily[i].temp.max)} / ${Math.floor(response.daily[i].temp.min)}°F`);
           $(`#humidity-${i+1}`).text(`${response.daily[i].humidity}%`);
-          $(`#hour-${i+1}-temp`).text(`${Math.floor(response.hourly[i+1].temp)}°F`);
-          $(`#hour-${i+1}-feels`).text(`${Math.floor(response.hourly[i+1].feels_like)}°F`);
+        }
+      // temperatures for the hourly forecast
+        for (let i = 1; i < 48; i++) {
+          $(`#hour-${i}-temp`).text(`${Math.floor(response.hourly[i].temp)}°F`);
+          $(`#hour-${i}-feels`).text(`${Math.floor(response.hourly[i].feels_like)}°F`);
         }
       });
+    // use lat and lon to access geonames api
       $.ajax({
         url: `https://secure.geonames.org/timezoneJSON?lat=${lat.toFixed(2)}&lng=${lon.toFixed(2)}&username=zigzagpoon`,
         method: "GET"
       }).then(function(response) {
-        for (let i = 1; i < 6; i++) {
+      // hours for hourly forecast
+        for (let i = 1; i < 48; i++) {
           $(`#hour-${i}`).text(`${(moment.tz(response.time, response.timezoneId).add(i, 'hours').format('hA'))}`);
+        // display the date at midnight
+          if (moment.tz(response.time, response.timezoneId).add(i, 'hours').format('hA') === '12AM') {
+            $(`#hour-${i}`).prepend(`${(moment.tz(response.time, response.timezoneId).add(i, 'hours').format('M/D'))} `);
+          }
           $(`#hour-${i}`).parent().addClass('uk-text-right');
         }
         $('#current-time').html(`${(moment.tz(response.time, response.timezoneId)).format('LLLL')}`);
@@ -160,7 +186,6 @@ $(document).ready(function() {
       }); 
     });
   };
-
+// when the page loads, show the first city on the list
   $('#city-0').children().first().click();
-
 });

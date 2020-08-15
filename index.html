@@ -8,14 +8,16 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.5.5/dist/css/uikit.min.css" />
   </head>
   <body>
-    
+    <!-- navbar start-->
     <nav class="uk-navbar" uk-navbar>
       <div class="uk-navbar-center">
         <a class="uk-navbar-item uk-logo uk-text-bold" href="#">Weather Dashb<span style="font-size: 28px; font-family:'Courier'; color: #ec6e4c;">o</span>ard</a>
       </div>
     </nav>
-
-    <div class="uk-container uk-margin uk-width-1-5@xl uk-width-1-3@l uk-width-1-3@m uk-float-left">
+    <!-- navbar end -->
+    <!-- left column start -->
+    <aside class="uk-container uk-margin uk-width-1-5@xl uk-width-1-3@l uk-width-1-3@m uk-float-left">
+      <!-- search input -->
       <div class="uk-margin">
         <p class="uk-text-uppercase uk-text-small">Enter city name</p>
         <form class="uk-search uk-search-default uk-width-1">
@@ -23,6 +25,7 @@
             <input class="uk-search-input" id="city-input">
         </form>
       </div>
+      <!-- city list -->
       <div class="uk-container">
         <ul uk-accordion>
           <li class="uk-open">
@@ -34,16 +37,20 @@
           </li>
         </ul>
       </div>
-    </div>
-    
-    <div id="target" class="uk-container uk-margin uk-width-4-5@xl uk-width-2-3@l uk-width-2-3@m uk-float-right">
+    </aside>
+    <!-- left column end -->
+    <!-- weather display start -->
+    <main id="target" class="uk-container uk-margin uk-width-4-5@xl uk-width-2-3@l uk-width-2-3@m uk-float-right">
       <div class="uk-card uk-card-default uk-card-body" id="target1">
-        <h2>
+        <!-- start today's weather card -->
+        <h1>
           <span uk-icon="icon: location; ratio: 1.5"><span>
           <span class="uk-float-right uk-margin-left uk-card-title" id="current-city"></span>
-        </h2>
+        </h1>
         <hr>
+        <!-- grid -->
         <div uk-grid>
+          <!-- left column start: date and current weather info -->
           <div class="uk-width-1-3@l uk-text-left">
             <div class="uk-container uk-text-center uk-padding-remove">
               <p class="uk-card-title" id="current-time"></p>
@@ -67,42 +74,32 @@
               </table>
             </div>
           </div>
+          <!-- left column end -->
+          <!-- right column start -->
           <div class="uk-width-2-3@l uk-margin-bottom">
+            <!-- hourly forecast table start -->
             <p class="uk-card-title uk-text-light uk-text-center">Hourly Forecast</p>
             <div class="uk-overflow-auto uk-text-right">
               <table class="uk-table uk-table-striped">
                 <thead>
-                  <tr>
+                  <tr id="hourly-hour">
                     <th></th>
                     <th class="uk-text-right">Currently</th>
-                    <th><span id="hour-1"></span></th>
-                    <th><span id="hour-2"></span></th>
-                    <th><span id="hour-3"></span></th>
-                    <th><span id="hour-4"></span></th>
-                    <th><span id="hour-5"></span></th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
+                  <tr id="hourly-temp">
                     <td>Temperature</td>
                     <td><span class="today-temp"></span></td>
-                    <td><span id="hour-1-temp"></span></td>
-                    <td><span id="hour-2-temp"></span></td>
-                    <td><span id="hour-3-temp"></span></td>
-                    <td><span id="hour-4-temp"></span></td>
-                    <td><span id="hour-5-temp"></span></td>
                   </tr>
-                  <tr>
+                  <tr id="hourly-feels">
                     <td>Feels Like</td>
                     <td><span id="feels-like"></span></td>
-                    <td><span id="hour-1-feels"></span></td>
-                    <td><span id="hour-2-feels"></span></td>
-                    <td><span id="hour-3-feels"></span></td>
-                    <td><span id="hour-4-feels"></span></td>
-                    <td><span id="hour-5-feels"></span></td>
                 </tbody>
               </table>
             </div>
+            <!-- hourly forecast table end -->
+            <!-- summary table start -->
             <p class="uk-card-title uk-text-light uk-text-center">Today's Summary</p>
             <div class="uk-overflow-auto uk-text-center">
               <table class="uk-table uk-table-divider">
@@ -125,19 +122,28 @@
                 </tbody>
               </table>
             </div>
+            <!-- summary table end -->
           </div>
+          <!-- right column end -->
         </div>
+        <!-- grid end -->
       </div>
+      <!-- end today's weather card -->
+      <!-- start 5-day forecast -->
       <h3 class="uk-text-center">5-Day Forecast</h3>
-      <div class="uk-child-width-1-5@xl uk-child-width-1-3@l uk-child-width-1-2@m uk-child-width-1-2@s uk-grid-small uk-grid-match" uk-grid>
-      </div>
-    </div>
-    
+      <div class="uk-child-width-1-5@xl uk-child-width-1-3@l uk-child-width-1-2@m uk-child-width-1-2@s uk-grid-small uk-grid-match" uk-grid></div>
+      <!-- end 5-day forecast -->
+    </main>
+    <!-- weather display end -->
+    <!-- uikit -->
     <script src="https://cdn.jsdelivr.net/npm/uikit@3.5.5/dist/js/uikit.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/uikit@3.5.5/dist/js/uikit-icons.min.js"></script>
+    <!-- jquery -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!-- moment -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.27.0/moment.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.31/moment-timezone.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.31/moment-timezone-with-data-10-year-range.min.js"></script>
+    <!-- my script -->
     <script src="./Assets/js/app.js"></script>
   </body>
 </html>
