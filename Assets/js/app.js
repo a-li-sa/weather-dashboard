@@ -127,14 +127,15 @@ $(document).ready(function() {
           return arr[(val % 16)];
         }
         let windDirection = degToCompass(response.current.wind_deg);
+        console.log(response.current.uvi);
         $('#today-wind').text(`${response.current.wind_speed} MPH ${windDirection}`);
         $('#today-uv').text(response.current.uvi);
         if (response.current.uvi < 3) {
           $('#today-uv').attr('class', 'uk-alert-success');
-        } else if (response.current.uvi >= 3 && response.value < 8) {
+        } else if (response.current.uvi >= 3 && response.current.uvi < 8) {
           $('#today-uv').attr('class', 'uk-alert-warning');
         } else {
-          $('#today-uv').attr('class', 'uk-alert-danger');
+          $('#today-uv').attr('class','uk-alert-danger');
         }
         for (let i = 0; i < 5; i++) {
           $(`#descr-${i+1}`).text(response.daily[i].weather[0].description)
