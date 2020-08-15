@@ -49,11 +49,13 @@ In this application, the user can find the date and the following weather inform
 * Humidity percentage
 * Wind speed in MPH and wind direction
 * UV index (0-2: green, 3-7: yellow, 8+: red)
-* Hourly temperature forecast and how it feels
+* Hourly forecast which displays the temperature, how it feels, and the weather description for the hour
 * Sunrise and sunset times
 * Summary of the day's temperatures
 
 The page also shows the forecast for the next 5 days, displaying the description of the weather conditions, the highs and lows, and the humidity percentage for each day. 
+
+This application displays temperatures in Fahenheit, or Celsius when the "°C / °F" button is clicked. 
 
 <p><img src="Assets/homework6-0.jpg"width="600"/></p>
 

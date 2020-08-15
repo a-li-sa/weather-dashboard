@@ -3,13 +3,15 @@ $(document).ready(function() {
   // today's date under the city name
   $('#today-date').text(`${moment().format('dddd, l')}`);
   // table for the hourly forecast 
-  for (let i = 1; i < 48; i++) {
+  for (let i = 0; i < 48; i++) {
     let $hour = $('<th>').append($('<span>').attr('id', `hour-${i}`));
     $('#hourly-hour').append($hour);
     let $hourTemp = $('<td>').append($('<span>').attr('id', `hour-${i}-temp`));
     $('#hourly-temp').append($hourTemp);
     let $hourFeels = $('<td>').append($('<span>').attr('id', `hour-${i}-feels`));
     $('#hourly-feels').append($hourFeels);
+    let $hourMain = $('<td>').append($('<span>').attr('id', `hour-${i}-main`));
+    $('#hourly-main').append($hourMain);
   }
   // 5 cards, 1 for each day for the 5 day forecast
   for (let i = 1; i < 6; i++) {
@@ -127,14 +129,13 @@ $(document).ready(function() {
         url: `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&units=${tempUnit}&appid=${APIKey}`,
         method: "GET"
       }).then(function(response) {
-        $('.today-temp').text(`${Math.floor(response.current.temp)}°F`);
+        $('#current-temp').addClass('units').text(`${Math.floor(response.current.temp)}°F`);
         $('.current-description').html(response.current.weather[0].description);
         $('#today-icon').attr('src', `https://openweathermap.org/img/wn/${response.current.weather[0].icon}@2x.png`)
-        $('#morning').text(`${Math.floor(response.daily[0].temp.morn)}°F`);
-        $('#afternoon').text(`${Math.floor(response.daily[0].temp.day)}°F`);
-        $('#evening').text(`${Math.floor(response.daily[0].temp.eve)}°F`);
-        $('#night').text(`${Math.floor(response.daily[0].temp.night)}°F`);
-        $('#feels-like').text(`${Math.floor(response.current.feels_like)}°F`);
+        $('#morning').addClass('units').text(`${Math.floor(response.daily[0].temp.morn)}°F`);
+        $('#afternoon').addClass('units').text(`${Math.floor(response.daily[0].temp.day)}°F`);
+        $('#evening').addClass('units').text(`${Math.floor(response.daily[0].temp.eve)}°F`);
+        $('#night').addClass('units').text(`${Math.floor(response.daily[0].temp.night)}°F`);
         $('#today-humidity').text(`${response.current.humidity}%`);
       // convert degrees to direction
         function degToCompass(num) {
@@ -143,7 +144,7 @@ $(document).ready(function() {
           return arr[(val % 16)];
         }
         let windDirection = degToCompass(response.current.wind_deg);
-        $('#today-wind').text(`${response.current.wind_speed} MPH ${windDirection}`);
+        $('#today-wind').text(`${response.current.wind_speed} mph ${windDirection}`);
       // green, yellow, or red alerts for the uv index
         $('#today-uv').text(response.current.uvi);
         if (response.current.uvi < 3) {
@@ -157,13 +158,14 @@ $(document).ready(function() {
         for (let i = 0; i < 5; i++) {
           $(`#descr-${i+1}`).text(response.daily[i].weather[0].description)
           $(`#icon-${i+1}`).attr("src", `https://openweathermap.org/img/wn/${response.daily[i].weather[0].icon}@2x.png`);
-          $(`#temp-${i+1}`).text(`${Math.floor(response.daily[i].temp.max)} / ${Math.floor(response.daily[i].temp.min)}°F`);
+          $(`#temp-${i+1}`).addClass('units').text(`${Math.floor(response.daily[i].temp.max)} / ${Math.floor(response.daily[i].temp.min)}°F`);
           $(`#humidity-${i+1}`).text(`${response.daily[i].humidity}%`);
         }
       // temperatures for the hourly forecast
-        for (let i = 1; i < 48; i++) {
-          $(`#hour-${i}-temp`).text(`${Math.floor(response.hourly[i].temp)}°F`);
-          $(`#hour-${i}-feels`).text(`${Math.floor(response.hourly[i].feels_like)}°F`);
+        for (let i = 0; i < 48; i++) {
+          $(`#hour-${i}-temp`).addClass('units').text(`${Math.floor(response.hourly[i].temp)}°F`);
+          $(`#hour-${i}-feels`).addClass('units').text(`${Math.floor(response.hourly[i].feels_like)}°F`);
+          $(`#hour-${i}-main`).text(`${response.hourly[i].weather[0].main}`);
         }
       });
     // use lat and lon to access geonames api
@@ -172,7 +174,7 @@ $(document).ready(function() {
         method: "GET"
       }).then(function(response) {
       // hours for hourly forecast
-        for (let i = 1; i < 48; i++) {
+        for (let i = 0; i < 48; i++) {
           $(`#hour-${i}`).text(`${(moment.tz(response.time, response.timezoneId).add(i, 'hours').format('hA'))}`);
         // display the date at midnight
           if (moment.tz(response.time, response.timezoneId).add(i, 'hours').format('hA') === '12AM') {
@@ -188,4 +190,18 @@ $(document).ready(function() {
   };
 // when the page loads, show the first city on the list
   $('#city-0').children().first().click();
+// convert temperature units
+  $('#change-unit-btn').click(function() {
+    $.each(Array.from($('.units')), function(index, element) {
+      if (element.textContent.includes('°F')) {
+        let fahrenheit = parseInt(element.textContent.substring().substring());
+        let celsius = (fahrenheit - 32) * 5 / 9;
+        element.textContent = `${(celsius).toFixed(0)}°C`;
+      } else {
+        let celsius = parseInt(element.textContent.substring().substring());
+        let fahrenheit = celsius * 9 / 5 + 32;
+        element.textContent = `${(fahrenheit).toFixed(0)}°F`;
+      }
+    })
+  });
 });

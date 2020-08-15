@@ -6,6 +6,14 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.5.5/dist/css/uikit.min.css" />
+    <style>
+      #change-unit-btn {
+        transition: 0.3s;
+      }
+      #change-unit-btn:hover {
+        background-color: #ec6e4c;
+      }
+    </style>
   </head>
   <body>
     <!-- navbar start-->
@@ -54,7 +62,7 @@
           <div class="uk-width-1-3@l uk-text-left">
             <div class="uk-container uk-text-center uk-padding-remove">
               <p class="uk-card-title" id="current-time"></p>
-              <h1 class="today-temp"></h1>
+              <h1 id="current-temp"></h1>
               <p class="uk-text-uppercase uk-text-small current-description"></p>
               <img id="today-icon" alt="weather icon"/>
             </div>
@@ -73,6 +81,7 @@
                 </tbody>
               </table>
             </div>
+            <a><span id="change-unit-btn" class="uk-background-muted uk-text-secondary uk-padding-small uk-badge uk-position-absolute uk-position-small uk-position-top-right">°C / °F </span></a>
           </div>
           <!-- left column end -->
           <!-- right column start -->
@@ -108,17 +117,18 @@
                 <thead>
                   <tr id="hourly-hour">
                     <th></th>
-                    <th class="uk-text-right">Currently</th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody class="uk-text-small">
                   <tr id="hourly-temp">
-                    <td>Temperature</td>
-                    <td><span class="today-temp"></span></td>
+                    <td>TEMPERATURE</td>
                   </tr>
                   <tr id="hourly-feels">
-                    <td>Feels Like</td>
-                    <td><span id="feels-like"></span></td>
+                    <td>FEELS LIKE</td>
+                  </td>
+                  <tr id="hourly-main">
+                    <td>WEATHER</td>
+                  </td>
                 </tbody>
               </table>
             </div>
