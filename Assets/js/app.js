@@ -4,12 +4,12 @@ $(document).ready(function() {
   for (let i = 1; i < 6; i++) {
     let $div = $('<div>');
     let $innerDiv = $('<div>').addClass('uk-card uk-card-default uk-card-small');
-    let $h4 = $('<h4>').addClass('uk-card-title uk-text-center uk-text-light uk-padding').text(moment().add(i, 'day').format('dddd, l'));
+    let $h4 = $('<h4>').addClass('uk-card-title uk-text-center uk-text-light uk-padding uk-padding-remove-bottom').text(moment().add(i, 'day').format('dddd, l'));
     let $img = $('<img>').attr('alt', 'weather icon').attr('id', 'icon-' + i);
     let $pDescr = $('<p>').addClass('uk-text-uppercase uk-text-small').attr('id', 'descr-' + i);
-    let $table = $('<table>').addClass('uk-table');
-    let $trTemp = $('<tr>').append($('<td>').text('High / Low:'), $('<td>').append($('<span>').attr('id', 'temp-' + i)));
-    let $trHumidity = $('<tr>').append($('<td>').text('Humidity:'), $('<td>').append($('<span>').attr('id', 'humidity-' + i)));
+    let $table = $('<table>').addClass('uk-table uk-text-center');
+    let $trTemp = $('<tr>').append($('<th>').text('High / Low').addClass('uk-text-center uk-padding-remove-right'), ($('<th>').text('Humidity').addClass('uk-text-center')));
+    let $trHumidity = $('<tr>').append(($('<td>').attr('id', 'temp-' + i)).addClass('uk-text-center uk-padding-remove-right'), ($('<td>').attr('id', 'humidity-' + i)));
     $div.append($innerDiv.append($h4.append('<br>', $pDescr, $img), $table.append($trTemp, $trHumidity)));
     $('.uk-grid-match').append($div);
   }
@@ -43,8 +43,6 @@ $(document).ready(function() {
   }
 
   init();
-
-  $("#add-city").on("click", addToList);
   
   function addToList (event) {
     event.preventDefault();
@@ -69,13 +67,6 @@ $(document).ready(function() {
     }
   };
 
-  $("#city-input").bind('keypress', function(event) {
-    if (event.keyCode === 13) {
-      event.preventDefault();
-      $("#add-city").click();
-    }
-  });
-
   let findDuplicates = (arr) => {
     let sorted_arr = arr.slice().sort();
     let results = '';
@@ -86,6 +77,15 @@ $(document).ready(function() {
     }
     return results;
   }
+
+  $("#add-city").on("click", addToList);
+
+  $("#city-input").bind('keypress', function(event) {
+    if (event.keyCode === 13) {
+      event.preventDefault();
+      $("#add-city").click();
+    }
+  });
 
   $(document).on("click", ".trash", function(event) {
     const index = event.target.parentElement.parentElement.getAttribute("data-index");
@@ -106,50 +106,60 @@ $(document).ready(function() {
         method: "GET"
     }).then(function(response) {
       $('#current-city').text(`${response.name}, ${response.sys.country}`)
-      $('#current-city').append($('<span>').addClass("uk-text-light").html(`<br>${moment().format('dddd, LL')}`));
-      $('#current-city').append($('<p>').addClass("uk-text-right uk-text-uppercase uk-text-small uk-text-bold").html(`Looks Like`));
-      $('.current-description').html(response.weather[0].description);
-      $('#today-icon').attr('src', `https://openweathermap.org/img/wn/${response.weather[0].icon}@2x.png`)
-      $('#today-temp').text(`${response.main.temp}°F`);
-      $('#feels-like').text(`${response.main.feels_like}°F`);
-      $('#today-humidity').text(`${response.main.humidity}%`);
-      $('#today-wind').text(`${response.wind.speed} MPH`);
       let lat = response.coord.lat;
       let lon = response.coord.lon;
       $.ajax({
-        url: `https://secure.geonames.org/timezoneJSON?lat=${lat.toFixed(2)}&lng=${lon.toFixed(2)}&username=zigzagpoon`,
+        url: `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&units=${tempUnit}&appid=${APIKey}`,
         method: "GET"
       }).then(function(response) {
-        $('#sunrise').text((moment.tz(response.sunrise, response.timezoneId)).format('LT'));
-        $('#sunset').text((moment.tz(response.sunset, response.timezoneId)).format('LT'));
-      }); 
-      $.ajax({
-        url: "https://api.openweathermap.org/data/2.5/uvi?lat=" + lat + "&lon=" + lon + "&appid=" + APIKey,
-        method: "GET"
-      }).then(function(response) {
-        $('#today-uv').text(response.value);
-        if (response.value < 3) {
+        $('.current-description').html(response.current.weather[0].description);
+        $('#today-icon').attr('src', `https://openweathermap.org/img/wn/${response.current.weather[0].icon}@2x.png`)
+        $('.today-temp').text(`${Math.floor(response.current.temp)}°F`);
+        $('#morning').text(`${Math.floor(response.daily[0].temp.morn)}°F`);
+        $('#afternoon').text(`${Math.floor(response.daily[0].temp.day)}°F`);
+        $('#evening').text(`${Math.floor(response.daily[0].temp.eve)}°F`);
+        $('#night').text(`${Math.floor(response.daily[0].temp.night)}°F`);
+        $('#feels-like').text(`${Math.floor(response.current.feels_like)}°F`);
+        $('#today-humidity').text(`${response.current.humidity}%`);
+        function degToCompass(num) {
+          let val = Math.floor((num / 22.5) + 0.5);
+          let arr = ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"];
+          return arr[(val % 16)];
+        }
+        let windDirection = degToCompass(response.current.wind_deg);
+        $('#today-wind').text(`${response.current.wind_speed} MPH ${windDirection}`);
+        $('#today-uv').text(response.current.uvi);
+        if (response.current.uvi < 3) {
           $('#today-uv').attr('class', 'uk-alert-success');
-        } else if (response.value >= 3 && response.value < 8) {
+        } else if (response.current.uvi >= 3 && response.value < 8) {
           $('#today-uv').attr('class', 'uk-alert-warning');
         } else {
           $('#today-uv').attr('class', 'uk-alert-danger');
         }
+        for (let i = 0; i < 5; i++) {
+          $(`#descr-${i+1}`).text(response.daily[i].weather[0].description)
+          $(`#icon-${i+1}`).attr("src", `https://openweathermap.org/img/wn/${response.daily[i].weather[0].icon}@2x.png`);
+          $(`#temp-${i+1}`).text(`${Math.floor(response.daily[i].temp.max)} / ${Math.floor(response.daily[i].temp.min)}°F`);
+          $(`#humidity-${i+1}`).text(`${response.daily[i].humidity}%`);
+          $(`#hour-${i+1}-temp`).text(`${Math.floor(response.hourly[i+1].temp)}°F`);
+          $(`#hour-${i+1}-feels`).text(`${Math.floor(response.hourly[i+1].feels_like)}°F`);
+        }
       });
-    });
-    $.ajax({
-      url: "https://api.openweathermap.org/data/2.5/forecast/daily?q=" + cityName + "&units=" + tempUnit + "&appid=" + APIKey,
-      method: "GET"
-    }).then(function(response) {
-      for (let i = 0; i < 5; i++) {
-        $(`#descr-${i+1}`).text(response.list[i].weather[0].description)
-        $(`#icon-${i+1}`).attr("src", `https://openweathermap.org/img/wn/${response.list[i].weather[0].icon}@2x.png`);
-        $(`#temp-${i+1}`).text(`${Math.floor(response.list[i].temp.max)}°F / ${Math.floor(response.list[i].temp.min)}°F`);
-        $(`#humidity-${i+1}`).text(`${response.list[i].humidity}%`);
-      }
+      $.ajax({
+        url: `https://secure.geonames.org/timezoneJSON?lat=${lat.toFixed(2)}&lng=${lon.toFixed(2)}&username=zigzagpoon`,
+        method: "GET"
+      }).then(function(response) {
+        for (let i = 1; i < 6; i++) {
+          $(`#hour-${i}`).text(`${(moment.tz(response.time, response.timezoneId).add(i, 'hours').format('hA'))}`);
+          $(`#hour-${i}`).parent().addClass('uk-text-right');
+        }
+        $('#current-time').html(`${(moment.tz(response.time, response.timezoneId)).format('LLLL')}`);
+        $('#sunrise').text((moment.tz(response.sunrise, response.timezoneId)).format('LT'));
+        $('#sunset').text((moment.tz(response.sunset, response.timezoneId)).format('LT'));
+      }); 
     });
   };
-  
+
   $('#city-0').children().first().click();
 
 });

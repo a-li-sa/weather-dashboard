@@ -45,12 +45,13 @@ To view the website, you can click [here](https://a-li-sa.github.io/weather-dash
 In this application, the user can find the date and the following weather information for a particular city:
 
 * Description of the weather conditions
-* Temperature
-* Temperature it feels like
+* Current temperature
 * Humidity percentage
-* Wind speed in MPH
+* Wind speed in MPH and wind direction
 * UV index (0-2: green, 3-7: yellow, 8+: red)
+* Hourly temperature forecast and how it feels
 * Sunrise and sunset times
+* Summary of the day's temperatures
 
 The page also shows the forecast for the next 5 days, displaying the description of the weather conditions, the highs and lows, and the humidity percentage for each day. 
 
@@ -62,7 +63,7 @@ When the page is refreshed, the search inputs will be saved to the local storage
 
 <p><img src="Assets/homework6-1.gif"width="600"/></p>
 
-To remove a city from the collapsible list, click the "X" button.
+To remove a city from the collapsible list, click the "X" button next to the city.
 
 To view the information of a city on the list, click the city's name.
 

@@ -15,7 +15,7 @@
       </div>
     </nav>
 
-    <div class="uk-container uk-margin uk-width-1-5@xl uk-width-1-4@l uk-width-1-3@m uk-float-left">
+    <div class="uk-container uk-margin uk-width-1-5@xl uk-width-1-3@l uk-width-1-3@m uk-float-left">
       <div class="uk-margin">
         <p class="uk-text-uppercase uk-text-small">Enter city name</p>
         <form class="uk-search uk-search-default uk-width-1">
@@ -36,67 +36,96 @@
       </div>
     </div>
     
-    <div id="target" class="uk-container uk-margin uk-width-4-5@xl uk-width-3-4@l uk-width-2-3@m uk-float-right">
+    <div id="target" class="uk-container uk-margin uk-width-4-5@xl uk-width-2-3@l uk-width-2-3@m uk-float-right">
       <div class="uk-card uk-card-default uk-card-body" id="target1">
-        <h2 class="uk-card-title" id="current-city"></h2>
-        <div class="uk-float-right uk-text-right">
-          <p class="uk-text-uppercase uk-text-small current-description"></p>
-          <img id="today-icon" alt="weather icon"/>
-          <table class="uk-table uk-table-striped">
-            <thead>
-              <tr>
-                <th></th>
-                <th>Currently</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Temperature</td>
-                <td><span id="today-temp"></span></td>
-              </tr>
-              <tr>
-                <td>Feels Like</td>
-                <td><span id="feels-like"></span></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div class="uk-float-left uk-text-left">
-          <table class="uk-table">
-            <tbody>
-              <tr>
-                <td>Humidity: </td>
-                <td><span id="today-humidity"></span></td>
-              </tr>
-            </tbody>
-            <tbody>
-              <tr>
-                <td>Wind Speed: </span></td>
-                <td><span id="today-wind"></td>
-              </tr>
-            </tbody>
-            <tbody>
-              <tr>
-                <td>UV Index: </span></td>
-                <td><span id="today-uv"></span></td>
-              </tr>
-            </tbody>
-          </table>
-          <hr class="uk-invisible">
-          <table class="uk-table uk-table-divider">
-            <thead>
-              <tr>
-                <th>Sunrise</th>
-                <th>Sunset</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><span id="sunrise"></span></td>
-                <td><span id="sunset"></span></td>
-              </tr>
-            </tbody>
-          </table>
+        <h2>
+          <span uk-icon="icon: location; ratio: 1.5"><span>
+          <span class="uk-float-right uk-margin-left uk-card-title" id="current-city"></span>
+        </h2>
+        <hr>
+        <div uk-grid>
+          <div class="uk-width-1-3@l uk-text-left">
+            <div class="uk-container uk-text-center uk-padding-remove">
+              <p class="uk-card-title" id="current-time"></p>
+              <h1 class="today-temp"></h1>
+              <p class="uk-text-uppercase uk-text-small current-description"></p>
+              <img id="today-icon" alt="weather icon"/>
+            </div>
+            <div class="uk-overflow-auto uk-text-center">
+              <table class="uk-table uk-table-divider">
+                <thead>
+                  <th class="uk-text-center uk-width-small">Humidity</th>
+                  <th class="uk-text-center uk-width-small">Wind Speed</th>
+                  <th class="uk-text-center uk-width-small">UV Index</th>
+                </thead>
+                  <tr>
+                    <td><span id="today-humidity"></span></td>
+                    <td><span id="today-wind"></td>
+                    <td><span id="today-uv"></span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="uk-width-2-3@l uk-margin-bottom">
+            <p class="uk-card-title uk-text-light uk-text-center">Hourly Forecast</p>
+            <div class="uk-overflow-auto uk-text-right">
+              <table class="uk-table uk-table-striped">
+                <thead>
+                  <tr>
+                    <th></th>
+                    <th class="uk-text-right">Currently</th>
+                    <th><span id="hour-1"></span></th>
+                    <th><span id="hour-2"></span></th>
+                    <th><span id="hour-3"></span></th>
+                    <th><span id="hour-4"></span></th>
+                    <th><span id="hour-5"></span></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Temperature</td>
+                    <td><span class="today-temp"></span></td>
+                    <td><span id="hour-1-temp"></span></td>
+                    <td><span id="hour-2-temp"></span></td>
+                    <td><span id="hour-3-temp"></span></td>
+                    <td><span id="hour-4-temp"></span></td>
+                    <td><span id="hour-5-temp"></span></td>
+                  </tr>
+                  <tr>
+                    <td>Feels Like</td>
+                    <td><span id="feels-like"></span></td>
+                    <td><span id="hour-1-feels"></span></td>
+                    <td><span id="hour-2-feels"></span></td>
+                    <td><span id="hour-3-feels"></span></td>
+                    <td><span id="hour-4-feels"></span></td>
+                    <td><span id="hour-5-feels"></span></td>
+                </tbody>
+              </table>
+            </div>
+            <p class="uk-card-title uk-text-light uk-text-center">Today's Summary</p>
+            <div class="uk-overflow-auto uk-text-center">
+              <table class="uk-table uk-table-divider">
+                <thead>
+                  <th class="uk-text-center uk-width-small">Sunrise</th>
+                  <th class="uk-text-center uk-width-small">Morning</th>
+                  <th class="uk-text-center uk-width-small">Afternoon</th>
+                  <th class="uk-text-center uk-width-small">Evening</th>
+                  <th class="uk-text-center uk-width-small">Sunset</th>
+                  <th class="uk-text-center uk-width-small">Night</th>
+                </thead>
+                  <tr>
+                    <td><span id="sunrise"></span></td>
+                    <td><span id="morning"></span></td>
+                    <td><span id="afternoon"></span></td>
+                    <td><span id="evening"></span></td>
+                    <td><span id="sunset"></span></td>
+                    <td><span id="night"></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
       </div>
       <h3 class="uk-text-center">5-Day Forecast</h3>
