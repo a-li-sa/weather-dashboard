@@ -55,7 +55,7 @@ In this application, the user can find the date and the following weather inform
 
 The page also shows the forecast for the next 5 days, displaying the description of the weather conditions, the highs and lows, and the humidity percentage for each day. 
 
-This application displays temperatures in Fahenheit, or Celsius when the "°C / °F" button is clicked. 
+This application displays temperatures in imperial units (Fahenheit, mph), or metric units (Celsius, m/s) when the "Metric: °C, m/s" button is clicked. 
 
 <p><img src="Assets/homework6-0.jpg"width="600"/></p>
 

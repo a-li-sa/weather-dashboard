@@ -109,10 +109,13 @@ $(document).ready(function() {
     storeCities();
     renderCityList();
   });
+// initialize windSpeed variable,
+  let windSpeed;
 // on the list, click the city name to display weather info
   $(document).on("click", ".city-link", displayInfo);
   function displayInfo(event) {
     event.preventDefault();
+    $('#change-unit-btn').text('Metric: °C, m/s');
     const cityName = event.target.parentElement.textContent;
     let tempUnit = "imperial";
     let APIKey = "166a433c57516f51dfab1f7edaed8413";
@@ -144,7 +147,10 @@ $(document).ready(function() {
           return arr[(val % 16)];
         }
         let windDirection = degToCompass(response.current.wind_deg);
-        $('#today-wind').text(`${response.current.wind_speed} mph ${windDirection}`);
+        $('#today-wind').text(`${response.current.wind_speed} mph`);
+      // assign value to windSpeed variable, which will be used to convert from mph to m/s 
+        windSpeed = response.current.wind_speed;
+        $('#wind-direction').text(` ${windDirection}`);
       // green, yellow, or red alerts for the uv index
         $('#today-uv').text(response.current.uvi);
         if (response.current.uvi < 3) {
@@ -190,8 +196,13 @@ $(document).ready(function() {
   };
 // when the page loads, show the first city on the list
   $('#city-0').children().first().click();
-// convert temperature units
+// convert from imperial to metric
   $('#change-unit-btn').click(function() {
+    if ($(this).text() === 'Metric: °C, m/s') {
+      $(this).text('Imperial: °F, mph');
+    } else {
+      $(this).text('Metric: °C, m/s');
+    }
     $.each(Array.from($('.units')), function(index, element) {
       if (element.textContent.includes('°F')) {
         let fahrenheit = parseInt(element.textContent.substring().substring());
@@ -203,5 +214,18 @@ $(document).ready(function() {
         element.textContent = `${(fahrenheit).toFixed(0)}°F`;
       }
     })
+    if ($('#today-wind').text().includes('mph')) {
+      let mph = windSpeed;
+      let ms = mph * 5280 * 12 * 2.54 / 100 / 60 / 60;
+      console.log(mph, ms);
+      $('#today-wind').text(`${ms.toFixed(1)} m/s`);
+      windSpeed = ms;
+    } else {
+      let ms = windSpeed;
+      let mph = ms * 60 * 60 * 100 / 2.54 / 12 / 5280;
+      console.log(ms, mph)
+      $('#today-wind').text(`${mph.toFixed(1)} mph`);
+      windSpeed = mph;
+    }
   });
 });
