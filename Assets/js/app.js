@@ -147,7 +147,7 @@ $(document).ready(function() {
           return arr[(val % 16)];
         }
         let windDirection = degToCompass(response.current.wind_deg);
-        $('#today-wind').text(`${response.current.wind_speed} mph`);
+        $('#today-wind').text(`${response.current.wind_speed.toFixed(1)} mph`);
       // assign value to windSpeed variable, which will be used to convert from mph to m/s 
         windSpeed = response.current.wind_speed;
         $('#wind-direction').text(` ${windDirection}`);
