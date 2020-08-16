@@ -132,13 +132,13 @@ $(document).ready(function() {
         url: `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&units=${tempUnit}&appid=${APIKey}`,
         method: "GET"
       }).then(function(response) {
-        $('#current-temp').addClass('units').text(`${Math.floor(response.current.temp)}°F`);
+        $('#current-temp').addClass('units').text(`${response.current.temp.toFixed(0)}°F`);
         $('.current-description').html(response.current.weather[0].description);
         $('#today-icon').attr('src', `https://openweathermap.org/img/wn/${response.current.weather[0].icon}@2x.png`)
-        $('#morning').addClass('units').text(`${Math.floor(response.daily[0].temp.morn)}°F`);
-        $('#afternoon').addClass('units').text(`${Math.floor(response.daily[0].temp.day)}°F`);
-        $('#evening').addClass('units').text(`${Math.floor(response.daily[0].temp.eve)}°F`);
-        $('#night').addClass('units').text(`${Math.floor(response.daily[0].temp.night)}°F`);
+        $('#morning').addClass('units').text(`${response.daily[0].temp.morn.toFixed(0)}°F`);
+        $('#afternoon').addClass('units').text(`${response.daily[0].temp.day.toFixed(0)}°F`);
+        $('#evening').addClass('units').text(`${response.daily[0].temp.eve.toFixed(0)}°F`);
+        $('#night').addClass('units').text(`${response.daily[0].temp.night.toFixed(0)}°F`);
         $('#today-humidity').text(`${response.current.humidity}%`);
       // convert degrees to direction
         function degToCompass(num) {
@@ -164,14 +164,14 @@ $(document).ready(function() {
         for (let i = 1; i < 6; i++) {
           $(`#descr-${i}`).text(response.daily[i].weather[0].description)
           $(`#icon-${i}`).attr("src", `https://openweathermap.org/img/wn/${response.daily[i].weather[0].icon}@2x.png`);
-          $(`#high-${i}`).addClass('units').text(`${Math.floor(response.daily[i].temp.max)}°F`);
-          $(`#low-${i}`).addClass('units').text(`${Math.floor(response.daily[i].temp.min)}°F`);
+          $(`#high-${i}`).addClass('units').text(`${response.daily[i].temp.max.toFixed(0)}°F`);
+          $(`#low-${i}`).addClass('units').text(`${response.daily[i].temp.min.toFixed(0)}°F`);
           $(`#humidity-${i}`).text(`${response.daily[i].humidity}%`);
         }
       // temperatures for the hourly forecast
         for (let i = 0; i < 48; i++) {
-          $(`#hour-${i}-temp`).addClass('units').text(`${Math.floor(response.hourly[i].temp)}°F`);
-          $(`#hour-${i}-feels`).addClass('units').text(`${Math.floor(response.hourly[i].feels_like)}°F`);
+          $(`#hour-${i}-temp`).addClass('units').text(`${response.hourly[i].temp.toFixed(0)}°F`);
+          $(`#hour-${i}-feels`).addClass('units').text(`${response.hourly[i].feels_like.toFixed(0)}°F`);
           $(`#hour-${i}-main`).text(`${response.hourly[i].weather[0].main}`);
         }
       });
