@@ -132,7 +132,6 @@ $(document).ready(function() {
         url: `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&units=${tempUnit}&appid=${APIKey}`,
         method: "GET"
       }).then(function(response) {
-        console.log(response);
         $('#current-temp').addClass('units').text(`${Math.floor(response.current.temp)}°F`);
         $('.current-description').html(response.current.weather[0].description);
         $('#today-icon').attr('src', `https://openweathermap.org/img/wn/${response.current.weather[0].icon}@2x.png`)
@@ -162,12 +161,12 @@ $(document).ready(function() {
           $('#today-uv').attr('class','uk-alert-danger');
         }
       // information for the 5 day forecast
-        for (let i = 0; i < 5; i++) {
-          $(`#descr-${i+1}`).text(response.daily[i].weather[0].description)
-          $(`#icon-${i+1}`).attr("src", `https://openweathermap.org/img/wn/${response.daily[i].weather[0].icon}@2x.png`);
-          $(`#high-${i+1}`).addClass('units').text(`${Math.floor(response.daily[i].temp.max)}°F`);
-          $(`#low-${i+1}`).addClass('units').text(`${Math.floor(response.daily[i].temp.min)}°F`);
-          $(`#humidity-${i+1}`).text(`${response.daily[i].humidity}%`);
+        for (let i = 1; i < 6; i++) {
+          $(`#descr-${i}`).text(response.daily[i].weather[0].description)
+          $(`#icon-${i}`).attr("src", `https://openweathermap.org/img/wn/${response.daily[i].weather[0].icon}@2x.png`);
+          $(`#high-${i}`).addClass('units').text(`${Math.floor(response.daily[i].temp.max)}°F`);
+          $(`#low-${i}`).addClass('units').text(`${Math.floor(response.daily[i].temp.min)}°F`);
+          $(`#humidity-${i}`).text(`${response.daily[i].humidity}%`);
         }
       // temperatures for the hourly forecast
         for (let i = 0; i < 48; i++) {
@@ -219,7 +218,6 @@ $(document).ready(function() {
     if ($('#today-wind').text().includes('mph')) {
       let mph = windSpeed;
       let ms = mph * 5280 * 12 * 2.54 / 100 / 60 / 60;
-      console.log(mph, ms);
       $('#today-wind').text(`${ms.toFixed(1)} m/s`);
       windSpeed = ms;
     } else {
