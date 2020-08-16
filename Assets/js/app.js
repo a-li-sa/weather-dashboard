@@ -22,7 +22,7 @@ $(document).ready(function() {
     let $pDescr = $('<p>').addClass('uk-text-uppercase uk-text-small').attr('id', 'descr-' + i);
     let $table = $('<table>').addClass('uk-table uk-text-center');
     let $trTemp = $('<tr>').append($('<th>').text('High / Low').addClass('uk-text-center uk-padding-remove-right'), ($('<th>').text('Humidity').addClass('uk-text-center')));
-    let $trHumidity = $('<tr>').append(($('<td>').attr('id', 'temp-' + i)).addClass('uk-text-center uk-padding-remove-right'), ($('<td>').attr('id', 'humidity-' + i)));
+    let $trHumidity = $('<tr>').append(($('<td>').addClass('uk-text-center uk-padding-remove-right').append($('<span>').attr('id', 'high-' + i), ` / `, $('<span>').attr('id', 'low-' + i),)), ($('<td>').attr('id', 'humidity-' + i)));
     $div.append($innerDiv.append($h4.append('<br>', $pDescr, $img), $table.append($trTemp, $trHumidity)));
     $('.uk-grid-match').append($div);
   }
@@ -132,6 +132,7 @@ $(document).ready(function() {
         url: `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&units=${tempUnit}&appid=${APIKey}`,
         method: "GET"
       }).then(function(response) {
+        console.log(response);
         $('#current-temp').addClass('units').text(`${Math.floor(response.current.temp)}°F`);
         $('.current-description').html(response.current.weather[0].description);
         $('#today-icon').attr('src', `https://openweathermap.org/img/wn/${response.current.weather[0].icon}@2x.png`)
@@ -164,7 +165,8 @@ $(document).ready(function() {
         for (let i = 0; i < 5; i++) {
           $(`#descr-${i+1}`).text(response.daily[i].weather[0].description)
           $(`#icon-${i+1}`).attr("src", `https://openweathermap.org/img/wn/${response.daily[i].weather[0].icon}@2x.png`);
-          $(`#temp-${i+1}`).addClass('units').text(`${Math.floor(response.daily[i].temp.max)} / ${Math.floor(response.daily[i].temp.min)}°F`);
+          $(`#high-${i+1}`).addClass('units').text(`${Math.floor(response.daily[i].temp.max)}°F`);
+          $(`#low-${i+1}`).addClass('units').text(`${Math.floor(response.daily[i].temp.min)}°F`);
           $(`#humidity-${i+1}`).text(`${response.daily[i].humidity}%`);
         }
       // temperatures for the hourly forecast
