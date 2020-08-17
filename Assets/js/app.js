@@ -15,7 +15,7 @@ $(document).ready(function() {
   }
   // 5 cards, 1 for each day for the 5 day forecast
   for (let i = 1; i < 6; i++) {
-    let $div = $('<div>').attr('uk-scrollspy', 'cls: uk-animation-fade; target: .uk-card; delay: 100; repeat: true');
+    let $div = $('<div>');
     let $innerDiv = $('<div>').addClass('uk-card uk-card-default uk-card-small');
     let $h4 = $('<h4>').addClass('uk-card-title uk-text-center uk-text-light uk-padding uk-padding-remove-bottom').text(moment().add(i, 'day').format('dddd, l'));
     let $img = $('<img>').attr('alt', 'weather icon').attr('id', 'icon-' + i);
@@ -54,16 +54,13 @@ $(document).ready(function() {
   }
   // when this function is called, the city list will be rendered from array (from local storage or the default list)
   init();
-// update cities array when city is moved on the list
+  // update cities array when city is moved on the list
   $(document).on('moved', '.uk-sortable', function(e) {
-    var currentCity = e.originalEvent.explicitOriginalTarget;
     cities = [];
-    console.log(Array.from($(this)[0].children))
     Array.from($(this)[0].children).forEach(element => {
       cities.push(element.textContent);
       storeCities();
     });
-    console.log(cities);
   });
 // render a new city to the list using the search input
   function addToList (event) {
@@ -122,10 +119,16 @@ $(document).ready(function() {
   });
 // initialize windSpeed variable,
   let windSpeed;
+  let isCelsius;
 // on the list, click the city name to display weather info
   $(document).on("click", ".city-link", displayInfo);
   function displayInfo(event) {
     event.preventDefault();
+    if ($('#current-temp').text().includes('°C')) {
+      isCelsius = true;
+    } else {
+      isCelsius = false;
+    }
     $('#change-unit-btn').text('Metric: °C, m/s');
     const cityName = event.target.parentElement.textContent;
     let tempUnit = "imperial";
@@ -185,6 +188,9 @@ $(document).ready(function() {
           $(`#hour-${i}-feels`).addClass('units').text(`${response.hourly[i].feels_like.toFixed(0)}°F`);
           $(`#hour-${i}-main`).text(`${response.hourly[i].weather[0].main}`);
         }
+        if (isCelsius) {
+          $('#change-unit-btn').click();
+        }
       });
     // use lat and lon to access geonames api
       $.ajax({
@@ -210,7 +216,7 @@ $(document).ready(function() {
   $('#city-0').children().first().click();
   // $('#view-city-cards')[0].childNodes[0].childNodes[0].click();
 // convert from imperial to metric
-  $('#change-unit-btn').click(function() {
+  $('#change-unit-btn').on('click', function() {
     if ($(this).text() === 'Metric: °C, m/s') {
       $(this).text('Imperial: °F, mph');
     } else {
@@ -235,7 +241,6 @@ $(document).ready(function() {
     } else {
       let ms = windSpeed;
       let mph = ms * 60 * 60 * 100 / 2.54 / 12 / 5280;
-      console.log(ms, mph)
       $('#today-wind').text(`${mph.toFixed(1)} mph`);
       windSpeed = mph;
     }
