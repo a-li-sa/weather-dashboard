@@ -15,7 +15,7 @@ $(document).ready(function() {
   }
   // 5 cards, 1 for each day for the 5 day forecast
   for (let i = 1; i < 6; i++) {
-    let $div = $('<div>');
+    let $div = $('<div>').attr('uk-scrollspy', 'cls: uk-animation-fade; target: .uk-card; delay: 100; repeat: true');
     let $innerDiv = $('<div>').addClass('uk-card uk-card-default uk-card-small');
     let $h4 = $('<h4>').addClass('uk-card-title uk-text-center uk-text-light uk-padding uk-padding-remove-bottom').text(moment().add(i, 'day').format('dddd, l'));
     let $img = $('<img>').attr('alt', 'weather icon').attr('id', 'icon-' + i);
@@ -54,6 +54,17 @@ $(document).ready(function() {
   }
   // when this function is called, the city list will be rendered from array (from local storage or the default list)
   init();
+// update cities array when city is moved on the list
+  $(document).on('moved', '.uk-sortable', function(e) {
+    var currentCity = e.originalEvent.explicitOriginalTarget;
+    cities = [];
+    console.log(Array.from($(this)[0].children))
+    Array.from($(this)[0].children).forEach(element => {
+      cities.push(element.textContent);
+      storeCities();
+    });
+    console.log(cities);
+  });
 // render a new city to the list using the search input
   function addToList (event) {
     event.preventDefault();
@@ -197,6 +208,7 @@ $(document).ready(function() {
   };
 // when the page loads, show the first city on the list
   $('#city-0').children().first().click();
+  // $('#view-city-cards')[0].childNodes[0].childNodes[0].click();
 // convert from imperial to metric
   $('#change-unit-btn').click(function() {
     if ($(this).text() === 'Metric: °C, m/s') {

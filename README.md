@@ -71,6 +71,10 @@ To view the information of a city on the list, click the city's name.
 
 <p><img src="Assets/homework6-2.gif"width="600"/></p>
 
+The cities can also be dragged from the list, and the order will persist when the page is refreshed.
+
+<p><img src="Assets/homework6-5.gif"width="600"/></p>
+
 This webpage will also run on mobile devices. Clicking the search icon button or any city name on the collapsible list will scroll the page down to the weather information.
 
 <p float="left">
